@@ -50,7 +50,7 @@ public class SiegeWarSicknessUtil {
             if (resident == null)
                 continue;
 
-            if (nonOfficialLimiterEnabled && !isOfficialSiegeParticipant(player, resident, siege) && PvPlayer.get(player).isNewbie()) {
+            if (nonOfficialLimiterEnabled && !isOfficialSiegeParticipant(player, resident, siege)) {
                 //Give war sickness to players who are not official participants in the SiegeZone
                 if (TownyAPI.getInstance().isWilderness(location)) {
                     //In Wilderness - Full war sickness
@@ -99,7 +99,7 @@ public class SiegeWarSicknessUtil {
         SiegeWar.getSiegeWar().getScheduler().runLater(player, () -> {
             if (SiegeWarDistanceUtil.isInSiegeZone(player, siege)) {
                 if (PvPlayer.get(player).isNewbie()) {
-                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "spawn " + player.getName());
+                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "spawngonder  " + player.getName());
                     return;
                 }
                 if (SiegeWarDistanceUtil.isInANonBesiegedTown(player.getLocation())) {
@@ -144,6 +144,7 @@ public class SiegeWarSicknessUtil {
     }
 
     public static boolean isOfficialSiegeParticipant(Player player, Resident resident, Siege siege) {
+        if (PvPlayer.get(player).isNewbie()) return false;
         return SiegeSide.getPlayerSiegeSide(siege, player) != SiegeSide.NOBODY;
     }
 
