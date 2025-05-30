@@ -3,6 +3,8 @@ package com.gmail.goosius.siegewar.utils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import me.NoChance.PvPManager.PvPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -69,7 +71,8 @@ public class SiegeCampUtil {
 				|| !player.getWorld().equals(camp.getBannerBlock().getWorld())
 				|| player.isGliding() 
 				|| player.isFlying() 
-				|| player.getGameMode().equals(GameMode.SPECTATOR))
+				|| player.getGameMode().equals(GameMode.SPECTATOR)
+				|| PvPlayer.get(player).isNewbie())
 				continue;
 			
 			// Weed out the player who aren't in the area of the SiegeCamp.

@@ -14,6 +14,7 @@ import com.palmergames.bukkit.towny.object.Resident;
 import com.palmergames.bukkit.towny.object.Translatable;
 import com.palmergames.util.TimeTools;
 
+import me.NoChance.PvPManager.PvPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -49,7 +50,7 @@ public class SiegeWarSicknessUtil {
             if (resident == null)
                 continue;
 
-            if (nonOfficialLimiterEnabled && !isOfficialSiegeParticipant(player, resident, siege)) {
+            if (nonOfficialLimiterEnabled && !isOfficialSiegeParticipant(player, resident, siege) && PvPlayer.get(player).isNewbie()) {
                 //Give war sickness to players who are not official participants in the SiegeZone
                 if (TownyAPI.getInstance().isWilderness(location)) {
                     //In Wilderness - Full war sickness
@@ -97,6 +98,10 @@ public class SiegeWarSicknessUtil {
 
         SiegeWar.getSiegeWar().getScheduler().runLater(player, () -> {
             if (SiegeWarDistanceUtil.isInSiegeZone(player, siege)) {
+                if (PvPlayer.get(player).isNewbie()) {
+                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "spawn " + player.getName());
+                    return;
+                }
                 if (SiegeWarDistanceUtil.isInANonBesiegedTown(player.getLocation())) {
                     //Special War Sickness
                     givePlayerSpecialWarSicknessNow(player);

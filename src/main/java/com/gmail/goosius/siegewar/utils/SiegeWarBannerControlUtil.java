@@ -18,6 +18,7 @@ import com.palmergames.bukkit.towny.object.Translatable;
 import com.palmergames.bukkit.util.BukkitTools;
 import com.palmergames.util.TimeMgmt;
 import com.palmergames.util.TimeTools;
+import me.NoChance.PvPManager.PvPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -168,6 +169,9 @@ public class SiegeWarBannerControlUtil {
 
 		if (player.getGameMode() == GameMode.SPECTATOR)
 			return false; // Player is spectating
+
+		if (PvPlayer.get(player).isNewbie())
+			return false;
 
 		if(!SiegeWarScoringUtil.isPlayerInTimedPointZone(player, siege))
 			return false; //player is not in the timed point zone
